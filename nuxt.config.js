@@ -21,7 +21,7 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Mediser IPS S.A.S - Al frente de su salud' }
+      { hid: 'description', name: 'description', content: 'API - MONETIZATION - Grupo 3 - Ing. Software V' }
     ],
     link: [
       { rel: 'icon', type: 'image/icon', href: '/favicon.ico' }
