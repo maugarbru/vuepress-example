@@ -1,5 +1,20 @@
 <template>
   <div>
+    <v-container>
+      <v-parallax dark :height="200" :src="require('~/assets/fondo1.jpg')">
+        <v-row align="center" justify="center">
+          <v-col class="text-center" cols="12">
+            <h1 class="display-1 font-weight-thin mb-4">
+              Empieza con nosotros
+            </h1>
+            <v-btn class="primary--text" color="secondary" to="/app"
+              >Ir a la app <v-icon right>mdi-application-import</v-icon></v-btn
+            >
+          </v-col>
+        </v-row>
+      </v-parallax>
+    </v-container>
+
     <v-layout justify-center align-center>
       <v-item-group>
         <v-container>

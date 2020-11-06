@@ -21,6 +21,13 @@
 
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
+        <v-btn
+          class="d-none d-sm-flex primary--text"
+          color="secondary"
+          to="/app"
+          >Ir a la app</v-btn
+        >
+
         <v-menu left bottom class="d-flex d-sm-none">
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on" class="d-flex d-sm-none">
@@ -29,14 +36,16 @@
           </template>
 
           <v-list>
-            <v-list-item
-              v-for="(item, index) in items"
-              :key="index"
-              @click="() => {}"
-            >
+            <v-list-item v-for="(item, index) in items" :key="index">
               <v-btn block text tile color="primary" :to="item.to">{{
                 item.title
               }}</v-btn>
+            </v-list-item>
+
+            <v-list-item>
+              <v-btn block tile color="secondary" to="/app">
+                Ir a la app
+              </v-btn>
             </v-list-item>
           </v-list>
         </v-menu>

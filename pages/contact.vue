@@ -13,9 +13,9 @@
               </v-list-item-content>
 
             </v-list-item>
-            <v-list>
+            <v-list disabled>
               <v-list-item-group>
-                <v-list-item disabled>
+                <v-list-item >
                   <v-list-item-icon>
                     <v-icon color="primary">business</v-icon>
                   </v-list-item-icon>
@@ -25,9 +25,9 @@
                   </v-list-item-content>
                 </v-list-item>
 
-                <v-list-item href="mailto:contact@apirisk.co">
+                <v-list-item>
                   <v-list-item-icon>
-                    <v-icon color="primary">email</v-icon>
+                    <v-icon color="secondary">email</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title>E-mail</v-list-item-title>
@@ -35,9 +35,9 @@
                   </v-list-item-content>
                 </v-list-item>
 
-                <v-list-item href="https://api.whatsapp.com/send?phone=+573126570779" target="_blank">
+                <v-list-item>
                   <v-list-item-icon>
-                    <v-icon color="success">contact_phone</v-icon>
+                    <v-icon color="primary">contact_phone</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title>WhatsApp</v-list-item-title>
@@ -45,9 +45,9 @@
                   </v-list-item-content>
                 </v-list-item>
 
-                <v-list-item href="tel:+5745966025" target="_blank">
+                <v-list-item>
                   <v-list-item-icon>
-                    <v-icon color="primary">phone</v-icon>
+                    <v-icon color="secondary">phone</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title>Teléfono</v-list-item-title>

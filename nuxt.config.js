@@ -16,12 +16,12 @@ export default {
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    titleTemplate: 'API - MONETIZATION',
-    title:  'API - MONETIZATION',
+    titleTemplate: 'API RISK ®',
+    title:  'API RISK ®',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'API - MONETIZATION - Grupo 3 - Ing. Software V' }
+      { hid: 'description', name: 'description', content: 'API MONETIZATION for API RISK - Grupo 3 - Ing. Software V' }
     ],
     link: [
       { rel: 'icon', type: 'image/icon', href: '/favicon.ico' }
