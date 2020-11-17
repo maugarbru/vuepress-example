@@ -44,7 +44,7 @@
                       riesgos financieros.
                     </v-card-text>
                     <v-card-title class="success--text"
-                      >$5 per month</v-card-title
+                      >$5 USD por mes</v-card-title
                     >
                   </v-card>
                 </v-expansion-panel-content>
@@ -70,7 +70,7 @@
                       riesgos financieros y también la entrega de los reportes
                     </v-card-text>
                     <v-card-title class="success--text"
-                      >$10 per month</v-card-title
+                      >$10 USD al mes</v-card-title
                     >
                   </v-card>
                 </v-expansion-panel-content>
@@ -81,9 +81,9 @@
               align="justify"
               style="font-size: 1rem; font-weight: 400; line-height: 1.5"
             >
-              Esta atención pretende integrar un conjunto de servicios de
-              promoción, prevención y asistencia a usuarios, grupos de personas
-              en su entorno biopsicosocial.
+              Estos planes tienen la intención de acomodarse a lo que su negocio
+              necesita con una tarifa muy baja comparada con lo que añade
+              nuestro servicio a su empresa.
             </v-card-text>
           </v-card>
         </v-col>
