@@ -147,7 +147,7 @@ export default {
         this.error = true;
         setTimeout(() => {
           self.error = false;
-        }, 1500);
+        }, 2000);
       }
     },
 

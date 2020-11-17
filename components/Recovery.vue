@@ -25,11 +25,11 @@
             color="primary"
             @click="volverPerdida()"
           >
-            <v-icon left>mdi-arrow-left</v-icon>Calcular pérdida
+            <v-icon left>mdi-arrow-left</v-icon>Pérdida
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
-            :disabled="!file || items.length == 0"
+            :disabled="!loss || items.length == 0"
             outlined
             color="primary"
             @click="calcularRecuperacion()"
@@ -164,7 +164,8 @@ export default {
     },
 
     iniciarProceso() {
-      this.file = undefined;
+      this.recovery = undefined;
+      this.loss = undefined;
       this.report = undefined;
       this.step = 1;
     },
