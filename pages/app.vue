@@ -43,7 +43,7 @@
       </v-card-text>
     </v-card>
     <br />
-    <v-card v-if="user">
+    <v-card flat outlined v-if="user">
       <v-tabs
         v-model="tab"
         background-color="grey lighten-3"
@@ -62,7 +62,7 @@
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            <recovery />
+            <recovery @perdida="tab = 0" />
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -79,7 +79,7 @@ export default {
   components: {
     Auth,
     Loss,
-    Recovery
+    Recovery,
   },
   layout: "app",
   data() {

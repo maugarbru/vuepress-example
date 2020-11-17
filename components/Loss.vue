@@ -131,12 +131,12 @@ export default {
   },
   methods: {
     calcularPerdida() {
+      let self = this;
       if (
         this.file.name.split(".")[1] == "xls" ||
         this.file.name.split(".")[1] == "xlsx" ||
         this.file.name.split(".")[1] == "csv"
       ) {
-        let self = this;
         this.error = false;
         this.step = 2;
         this.loss = 212312;
@@ -145,6 +145,9 @@ export default {
         }, 2000);
       } else {
         this.error = true;
+        setTimeout(() => {
+          self.error = false;
+        }, 1500);
       }
     },
 
