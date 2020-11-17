@@ -25,11 +25,13 @@
           <v-btn
             :disabled="!file"
             outlined
+            small
             color="primary"
             @click="calcularPerdida()"
           >
             Calcular <v-icon right>mdi-calculator-variant</v-icon>
           </v-btn>
+          <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </v-stepper-content>
@@ -70,9 +72,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn outlined color="primary" @click="generarReporte()">
+          <v-btn small outlined color="primary" @click="generarReporte()">
             Ver reporte
           </v-btn>
+          <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </v-stepper-content>
@@ -106,11 +109,14 @@
           >
         </v-card-text>
         <v-card-actions>
-          <v-btn outlined color="primary" @click="step--">Resultados</v-btn>
           <v-spacer></v-spacer>
-          <v-btn outlined @click="iniciarProceso()"
-            >Inicio <v-icon right>mdi-arrow-up</v-icon></v-btn
+          <v-btn small outlined color="primary" @click="step--"
+            >Volver <v-icon right>mdi-arrow-up</v-icon></v-btn
           >
+          <v-btn small outlined color="secondary" @click="iniciarProceso()"
+            >Reiniciar<v-icon right>mdi-restart</v-icon></v-btn
+          >
+          <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </v-stepper-content>
