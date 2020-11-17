@@ -43,7 +43,7 @@
       </v-card-text>
     </v-card>
     <br />
-    <v-card>
+    <v-card v-if="user">
       <v-tabs
         v-model="tab"
         background-color="grey lighten-3"

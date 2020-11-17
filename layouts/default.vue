@@ -21,11 +21,8 @@
 
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
-        <v-btn
-          class="d-none d-sm-flex primary--text"
-          color="secondary"
-          to="/app"
-          >Ir a la app</v-btn
+        <v-btn class="d-none d-sm-flex primary--text" color="secondary" to="/app"
+          >App <v-icon color="primary" right>mdi-application-import</v-icon></v-btn
         >
 
         <v-menu left bottom class="d-flex d-sm-none">
