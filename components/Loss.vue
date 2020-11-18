@@ -58,17 +58,27 @@
     </v-stepper-step>
 
     <v-stepper-content step="3">
-      <v-card flat class="mx-auto">
+      <v-card v-if="loss" flat class="mx-auto">
         <v-card-title>
           <h3 class="primary--text">Resultados</h3>
           <v-spacer></v-spacer>
-          <h3 class="secondary--text">Pérdida: {{ loss }}</h3>
+          <h3 class="secondary--text">Pérdida: ${{ loss.quantity }}</h3>
         </v-card-title>
         <v-card-text v-if="file">
-          Resultados obtenidos a partir de los datos suministrados en el archivo
-          <b
-            ><i>{{ file.name }}</i></b
-          >
+          Resultados obtenidos a partir de los datos suministrados.
+        </v-card-text>
+        <v-card-text v-if="file">
+          Informe de operación:
+          <div>
+            Archivo:
+            <b>{{ file.name }}</b>
+          </div>
+          <div>
+            ID Pérdida: <b>{{ loss.id }}</b>
+          </div>
+          <div>
+            ID Entidad: <b>{{ loss.entity_id }}</b>
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -98,15 +108,25 @@
         <v-card-title>
           <h3 class="primary--text">Reporte</h3>
           <v-spacer></v-spacer>
-          <v-btn small tile color="secondary"
+          <v-btn small tile color="secondary" @click="descargarReporte()"
             >Descargar <v-icon right>mdi-download</v-icon></v-btn
           >
         </v-card-title>
         <v-card-text v-if="file">
-          Archivo de reporte generado de los datos de
-          <b
-            ><i>{{ file.name }}</i></b
-          >
+          Resultados obtenidos a partir de los datos suministrados.
+        </v-card-text>
+        <v-card-text v-if="file && loss">
+          Informe de operación:
+          <div>
+            Archivo:
+            <b>{{ file.name }}</b>
+          </div>
+          <div>
+            ID Pérdida: <b>{{ loss.id }}</b>
+          </div>
+          <div>
+            ID Entidad: <b>{{ loss.entity_id }}</b>
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -124,31 +144,53 @@
 </template>
 
 <script>
+import config from "~/assets/config.js";
+import axios from "axios";
+
 export default {
   data() {
     return {
       step: 1,
       file: undefined,
-      loss: "",
+      loss: undefined,
       loading: false,
       report: undefined,
       error: false,
+      lossID: undefined,
     };
   },
   methods: {
-    calcularPerdida() {
+    async calcularPerdida() {
       let self = this;
       if (
         this.file.name.split(".")[1] == "xls" ||
         this.file.name.split(".")[1] == "xlsx" ||
         this.file.name.split(".")[1] == "csv"
       ) {
-        this.error = false;
-        this.step = 2;
-        this.loss = 212312;
-        setTimeout(() => {
-          self.step = 3;
-        }, 2000);
+        let date = Date.now();
+        this.lossID = "lost" + date;
+        try {
+          let url1 = config.api_url + this.lossID + "/file";
+          let form_data = new FormData();
+          form_data.append("file", this.file);
+          let prom1 = await axios.post(url1, form_data, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          let url2 = config.api_url + this.lossID;
+          let prom2 = await axios.post(url2);
+          let url3 = config.api_url + this.lossID;
+          let prom3 = await axios.get(url3);
+          this.error = false;
+          this.step = 2;
+          this.loss = prom3.data.data.lost;
+          setTimeout(() => {
+            self.step = 3;
+          }, 2000);
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         this.error = true;
         setTimeout(() => {
@@ -157,22 +199,52 @@ export default {
       }
     },
 
-    generarReporte() {
+    async generarReporte() {
       this.step = 4;
       if (!this.report) {
-        let self = this;
-        this.loading = true;
-        setTimeout(() => {
-          self.loading = false;
-        }, 2000);
-        this.report = 1;
+        try {
+          let url = config.api_url + this.lossID + "/report";
+          let prom = await axios.get(url);
+          this.report = prom.data;
+          let self = this;
+          this.loading = true;
+          setTimeout(() => {
+            self.loading = false;
+          }, 2000);
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
 
     iniciarProceso() {
       this.file = undefined;
       this.report = undefined;
+      this.lossID = "";
+      this.loss = undefined;
       this.step = 1;
+    },
+
+    descargarReporte() {
+      const newBlob = new Blob([this.report], { type: "application/pdf" });
+
+      // MS Edge and IE don't allow using a blob object directly as link href, instead it is necessary to use msSaveOrOpenBlob
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(newBlob);
+      } else {
+        // For other browsers: create a link pointing to the ObjectURL containing the blob.
+        const objUrl = window.URL.createObjectURL(newBlob);
+
+        let link = document.createElement("a");
+        link.href = objUrl;
+        link.download = `ReportePerdida-[${this.file.name}]-[${new Date().toLocaleDateString()}].pdf`
+        link.click();
+
+        // For Firefox it is necessary to delay revoking the ObjectURL.
+        setTimeout(() => {
+          window.URL.revokeObjectURL(objUrl);
+        }, 250);
+      }
     },
   },
 };
