@@ -10,7 +10,12 @@
       <h1 class="font-weight-bold display-3 secondary--text">API-RISK</h1>
     </v-card-title>
 
-    <v-tabs v-model="tab" background-color="grey lighten-3" color="primary" grow>
+    <v-tabs
+      v-model="tab"
+      background-color="grey lighten-3"
+      color="primary"
+      grow
+    >
       <v-tab> Ingresar </v-tab>
       <v-tab> Registrarse </v-tab>
     </v-tabs>
@@ -60,7 +65,7 @@
               <v-text-field
                 v-model="companyRegister"
                 label="Nombre de la compañía *"
-                :rules="registerRules"
+                :rules="requiredRules"
                 required
               ></v-text-field>
 
@@ -151,6 +156,9 @@
 </template>
 
 <script>
+import config from "~/assets/config.js";
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -161,13 +169,14 @@ export default {
       overlaySuccessRegister: false,
       overlayError: false,
       logInRules: [(v) => !!v || "Este campo es requerido"],
+      requiredRules: [(v) => !!v || "Este campo es requerido"],
       registerRules: [
         (v) => !!v || "Este campo es requerido",
-        (v) => v.length <= 6 || "Debe tener mínimo 6 caracteres",
+        (v) => v.length >= 6 || "Debe tener mínimo 6 caracteres",
       ],
       emailRules: [
         (v) => !!v || "E-mail es requerido",
-        (v) => /.+@.+/.test(v) || "E-mail debe ser válido",
+        (v) => /.+@.+..+/.test(v) || "E-mail debe ser válido",
       ],
       tab: 0,
       error: "",
@@ -185,6 +194,7 @@ export default {
     mostrarError(texto) {
       let self = this;
       this.overlayError = true;
+      this.loading = false;
       this.error = texto;
       setTimeout(() => {
         self.overlayError = false;
@@ -200,35 +210,63 @@ export default {
       this.passwordConfirm = "";
       this.emailRegister = "";
     },
-    validateLogIn() {
+
+    async validateLogIn() {
       if (this.$refs.formLogIn.validate()) {
         let self = this;
-        this.overlaySuccessLogin = true;
-        this.user = {
-          userName: "test123",
-          companyName: "Verdulistas",
-          email: "test123@verdulistas.co",
+        let credentials = {
+          userName: this.username,
+          password: this.password,
         };
-        setTimeout(() => {
-          self.$emit("login", {
-            login: true,
-            user: self.user,
+        let url = config.api_url + "login";
+        try {
+          let prom = await axios.post(url, {
+            credentials: credentials,
           });
-        }, 2000);
+          this.user = prom.data.user
+          this.overlaySuccessLogin = true;
+          setTimeout(() => {
+            self.$emit("login", {
+              login: true,
+              user: self.user,
+            });
+          }, 2000);
+        } catch (error) {
+          console.log(error);
+          this.mostrarError("Credenciales incorrectas.");
+        }
       }
     },
-    validateRegister() {
+
+    async validateRegister() {
       if (this.$refs.formRegister.validate()) {
+        this.loading = true;
         if (this.passwordRegister == this.passwordConfirm) {
           const self = this;
           const usuario = this.usernameRegister;
-          this.overlaySuccessRegister = true;
-          this.limpiarCampos();
-          this.username = usuario;
-          this.tab = 0;
-          setTimeout(() => {
-            self.overlaySuccessRegister = false;
-          }, 1500);
+          let user = {
+            userName: this.usernameRegister,
+            companyName: this.companyRegister,
+            password: this.passwordRegister,
+            email: this.emailRegister,
+          };
+          let url = config.api_url + "signup";
+          try {
+            let prom = await axios.post(url, {
+              user: user,
+            });
+            this.overlaySuccessRegister = true;
+            this.limpiarCampos();
+            this.username = usuario;
+            this.tab = 0;
+            this.loading = false;
+            setTimeout(() => {
+              self.overlaySuccessRegister = false;
+            }, 1500);
+          } catch (error) {
+            console.log(error);
+            this.mostrarError("El usuario ya existe.");
+          }
         } else {
           this.mostrarError("Las contraseñas no coinciden.");
         }
