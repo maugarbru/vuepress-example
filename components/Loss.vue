@@ -113,7 +113,7 @@
           >
         </v-card-title>
         <v-card-text v-if="file">
-          Resultados obtenidos a partir de los datos suministrados.
+          Haga click en el botón DESCARGAR para obtener el PDF del reporte generado.
         </v-card-text>
         <v-card-text v-if="file && loss">
           Informe de operación:
@@ -188,6 +188,10 @@ export default {
           setTimeout(() => {
             self.step = 3;
           }, 2000);
+          this.$emit("agregarPerdida", {
+            id: this.lossID,
+            name: `Perdida [${this.file.name}] - [${new Date().toLocaleDateString()}]`
+          })
         } catch (error) {
           console.log(error);
         }

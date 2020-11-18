@@ -57,12 +57,12 @@
       <v-tabs-items v-model="tab">
         <v-tab-item>
           <v-card flat>
-            <loss />
+            <loss @agregarPerdida="agregarPerdida" />
           </v-card>
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            <recovery @perdida="tab = 0" />
+            <recovery @perdida="tab = 0" :losses="losses" :lossesNames="lossesNames" />
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -87,6 +87,9 @@ export default {
       tab: 0,
       dialog: true,
       user: undefined,
+      losses: [],
+      lossesNames: [],
+      change: 0
     };
   },
   methods: {
@@ -100,6 +103,11 @@ export default {
     cerrarSesion() {
       this.user = undefined;
       this.dialog = true;
+    },
+
+    agregarPerdida(loss) {
+      this.losses.push(loss);
+      this.lossesNames.push(loss.name)
     },
   },
 };
