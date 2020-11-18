@@ -76,6 +76,9 @@
         </v-card-title>
         <v-card-text>
           Resultados obtenidos a partir de los datos suministrados.
+          <div>Pérdida: ${{recovery.quantity}}</div>
+          <div>Recuperación: {{recovery.recovery}}%</div>
+          <div>Valor: <b>${{recovery.recovery * recovery.quantity}}<b></div>
         </v-card-text>
         <v-card-text>
           Informe de operación:
