@@ -71,7 +71,7 @@
           <h3 class="primary--text">Resultados</h3>
           <v-spacer></v-spacer>
           <h3 class="secondary--text">
-            Recuperación: ${{ recovery.quantity }}
+            Recuperación: {{ recovery.recovery }}%
           </h3>
         </v-card-title>
         <v-card-text>
