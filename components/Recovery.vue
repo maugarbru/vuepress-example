@@ -98,6 +98,9 @@
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
+      <v-alert v-if="error" dense outlined type="error">
+        {{ error_text }}
+      </v-alert>
     </v-stepper-content>
 
     <v-stepper-step color="secondary" step="4">
@@ -150,6 +153,9 @@
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
+      <v-alert v-if="error" dense outlined type="error">
+        {{ error_text }}
+      </v-alert>
     </v-stepper-content>
   </v-stepper>
 </template>
@@ -171,6 +177,7 @@ export default {
       loading: false,
       report: undefined,
       error: false,
+      error_text: "",
       lossSelected: undefined,
     };
   },
@@ -183,6 +190,10 @@ export default {
       try {
         let url = config.api_url + this.loss.id + "/recovery";
         let prom = await axios.post(url);
+      } catch (error) {
+        console.log(error);
+      }
+      try {
         let url2 = config.api_url + this.loss.id + "/recovery";
         let prom2 = await axios.get(url2);
         this.error = false;
@@ -192,6 +203,8 @@ export default {
           self.step = 3;
         }, 2000);
       } catch (error) {
+        this.error = true;
+        this.error_text = error;
         console.log(error);
       }
       setTimeout(() => {
@@ -212,6 +225,8 @@ export default {
             self.loading = false;
           }, 2000);
         } catch (error) {
+          this.error = true;
+          this.error_text = error;
           console.log(error);
         }
       }
@@ -240,7 +255,9 @@ export default {
 
         let link = document.createElement("a");
         link.href = objUrl;
-        link.download = `ReporteRecuperacion-[${this.lossSelected}]-[${new Date().toLocaleDateString()}].pdf`
+        link.download = `ReporteRecuperacion-[${
+          this.loss.id
+        }]-[${new Date().toLocaleDateString()}].pdf`;
         link.click();
 
         // For Firefox it is necessary to delay revoking the ObjectURL.

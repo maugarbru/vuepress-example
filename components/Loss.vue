@@ -88,6 +88,9 @@
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
+      <v-alert v-if="error" dense outlined type="error">
+        {{ error_text }}
+      </v-alert>
     </v-stepper-content>
 
     <v-stepper-step color="secondary" step="4">
@@ -113,7 +116,8 @@
           >
         </v-card-title>
         <v-card-text v-if="file">
-          Haga click en el botón DESCARGAR para obtener el PDF del reporte generado.
+          Haga click en el botón DESCARGAR para obtener el PDF del reporte
+          generado.
         </v-card-text>
         <v-card-text v-if="file && loss">
           Informe de operación:
@@ -139,6 +143,9 @@
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
+      <v-alert v-if="error" dense outlined type="error">
+        {{ error_text }}
+      </v-alert>
     </v-stepper-content>
   </v-stepper>
 </template>
@@ -156,6 +163,7 @@ export default {
       loading: false,
       report: undefined,
       error: false,
+      error_text: "",
       lossID: undefined,
     };
   },
@@ -190,9 +198,13 @@ export default {
           }, 2000);
           this.$emit("agregarPerdida", {
             id: this.lossID,
-            name: `Perdida [${this.file.name}] - [${new Date().toLocaleDateString()}]`
-          })
+            name: `Perdida [${
+              this.file.name
+            }] - [${new Date().toLocaleDateString()}]`,
+          });
         } catch (error) {
+          this.error = true;
+          this.error_text = error;
           console.log(error);
         }
       } else {
@@ -216,6 +228,8 @@ export default {
             self.loading = false;
           }, 2000);
         } catch (error) {
+          this.error = true;
+          this.error_text = error;
           console.log(error);
         }
       }
@@ -241,7 +255,9 @@ export default {
 
         let link = document.createElement("a");
         link.href = objUrl;
-        link.download = `ReportePerdida-[${this.file.name}]-[${new Date().toLocaleDateString()}].pdf`
+        link.download = `ReportePerdida-[${
+          this.file.name
+        }]-[${new Date().toLocaleDateString()}].pdf`;
         link.click();
 
         // For Firefox it is necessary to delay revoking the ObjectURL.
