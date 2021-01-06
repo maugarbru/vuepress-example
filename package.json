@@ -9,7 +9,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "nuxt": "^2.14.0",
     "nuxt-material-design-icons": "^1.0.4"
   },
